@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Img from 'react-image';
 
-const URL = 'localhost:5000'
+const URL = 'https://swe-server.herokuapp.com'
 
 class Post extends Component {
 
@@ -10,7 +11,7 @@ class Post extends Component {
 
 
 		this.state = {
-			post: {
+			"post": {
 				"id": null,
 				"title": null,
 				"description": null,
@@ -21,14 +22,30 @@ class Post extends Component {
 
 	componentDidMount() {
 		console.log('we here');
-		fetch(URL + '/post')
+		fetch(URL + '/post/1',{
+			headers: {
+				'Accept': 'application/json'
+			},
+			referrer: 'no-referrer',
+			mode: 'cors'
+		})
 			.then(response=> response.json())
-			.then(data => this.setState({post: data}));
+			.then(data => {
+				this.setState({"post": data});
+				console.log(data);
+			});
 	}
 
 	render() {
-		return (<div>
-				{this.state.post.id}
+
+		return (<div className="container">
+			<div className="card" style={{width: `18rem`}}>
+				  <Img className="card-img-top" src="{this.state.post.pictureLink}.jpg" alt="Card image cap"/>
+				  <div className="card-body">
+				   <h5 className="card-title">{this.state.post.title}</h5>
+				    <p className="card-text">{this.state.post.description}</p>
+				  </div>
+				</div>
 		</div>)
 	}
 }

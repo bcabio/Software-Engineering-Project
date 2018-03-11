@@ -29,13 +29,13 @@ class App extends Component {
      <div className="App">
       <div>
         <NavLink to="/"> Home </NavLink>
-        <NavLink to="/profile"> Profile </NavLink>
-        <NavLink to ="post/1"> Post </NavLink>
+        <NavLink to="/profile"> Users </NavLink>
+        <NavLink to ="/post/1"> Post </NavLink>
       </div>
 
       <div>
         <Route exact path="/" component={Login}/>
-        <Route path="post/1" component={Post}/>
+        <Route path="/post/1" component={Post}/>
         <Route path="/profile" component={Profile}/>
       </div>
 

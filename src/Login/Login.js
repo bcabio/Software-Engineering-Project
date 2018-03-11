@@ -1,61 +1,106 @@
 import React, { Component } from 'react';
 
+const baseURL = 'https://swe-server.herokuapp.com';
+
 class Login extends Component {
 
-	  constructor(props, context) {
+    constructor(props, context) {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
+    this.handleState = this.handleState.bind(this);
     this.state = {
-      email: ``,
-      username: ``,
-      password: ``,
-      passwordConf: ``,
-      logemail: ``,
-      logpassword: ``, 
-      response: null
+      "email": ``,
+      "username": ``,
+      "password": ``,
+      "passwordConf": ``,
+      "logemail": ``,
+      "logpassword": ``, 
+      "response": null
     };
   }
 
-	  handleChange(e) {
+    handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
 
 
+  handleState(e) {
+    var currentState = this.state;
+    currentState.response = e.response;
+    console.log(e, currentState);
+    this.setState(currentState);
+  }
+
   handleLogin(e) {
-    fetch('localhost:3000/login', {
+    e.preventDefault();
+    var data = {
+      "logemail": this.state.logemail,
+      "logpassword": this.state.logpassword
+    }
+    console.log(data);
+
+    fetch(baseURL + '/login', {
       method: 'post',
-      body: JSON.stringify({
-        logemail: this.state.logemail,
-        logpassword: this.state.logpassword
-      })
-    })
+      mode: 'cors',
+      body: "logemail=" + this.state.logemail + "&logpassword=" + this.state.logpassword,
+      headers: new Headers({
+          'Accept': 'application/json',
+          "Content-Type": "application/x-www-form-urlencoded"
+      }),
+      referrer: 'no-referrer'
+      // JSON.stringify({
+      //   logemail: this.state.logemail,
+      //   logpassword: this.state.logpassword
+      // })
+    }).then(response => response.json())
+    .then(data => this.handleState(data))
+    .catch(function(err) {
+      console.log(err);
+    });
   }
 
   handleRegister(e) {
-  	fetch('google.com', {}).then((response) => {
-  		console.log(response);
-  	})
-
-    fetch('localhost:3000/register', {
+    e.preventDefault();
+    var data = {
+      "email": this.state.email,
+      "username": this.state.username,
+      "password": this.state.password,
+      "passwordConf": this.state.passwordConf
+    }
+    console.log(data);
+    fetch(baseURL + '/register', {
       method: 'post',
-      body: "email=" + this.state.email + "&username=" + this.state.username + "&password=" + this.state.password + "&passwordConf" + this.state.passwordConf,
-  	  headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    }).then((response) => {
-    	if (response)
-    		console.log(response);
-    })
+      body: "email=" 
+          + this.state.email 
+          + "&username=" 
+          + this.state.username
+          + "&password=" 
+          + this.state.password 
+          + "&passwordConf=" 
+          + this.state.passwordConf,
+      mode: 'cors',
+      headers: new Headers({
+          'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+      referrer: 'no-referrer'
+
+    }).then(response => response.json())
+    .then(data => {this.handleState(data);
+      console.log("Here in the handleRegister method");
+      })
+    .catch(error => console.error("Error:", error));
   }
 
 
-	render() {
-		return (
-			<div>
-			<div>
+  render() {
+    return (
+      <div>
+      <div>
       <p> Register </p>
         <form onSubmit={this.handleRegister}>
             <input type="text" value={this.state.email} onChange={this.handleChange} name="email" placeholder="E-mail" required=""/>
@@ -74,8 +119,11 @@ class Login extends Component {
             <input type="submit" value="LOGIN"/>
           </form>
       </div>
+
+            {this.state.response}
+
       </div>
       );
-	}
+  }
 }
 export default Login;

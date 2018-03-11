@@ -8,31 +8,38 @@ class Profile extends Component {
 
 
 		this.state = {
-			profile: {
-				"email": null,
-				"username": null,
-			}
+			"profiles" : [
+				
+			]
 		};
 	}
 
 	componentDidMount() {
 		console.log('we here');
-		fetch(URL + '/profile')
+		fetch(URL + '/profiles')
 			.then(response=> response.json())
-			.then(data => this.setState({profile: data}));
+			.then(data => {
+				console.log(data);
+				this.setState({"profiles": data});
+				console.log(data);
+			});
 	}
 
 	render() {
-		if (this.state.profile.email) {
-			return (<div>
-				Welcome {this.state.profile.username} </div>);
-		}
+		const cards = this.state.profiles.map((user) =>
+				<div key={user._id} className="card">
+					<h3 className="card-title"> {user.username} </h3>
+					<p> {user.email} </p>
+					<p className="card-text"> {user.password} </p>
+				</div>
+			);
 
-		return (<div>
-			{this.state.profile.username}
-				<p>You are currently not logged in </p>
-				</div>);
+	return (<div class="container">
+				<h1> List of All Users </h1>
+				{cards}
+			</div>)	;
+		}
 	}
-}
+
 
 export default Profile;
