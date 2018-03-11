@@ -6,13 +6,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <p> awefpoiajsd;lfkqjwpeofijas;dflkqjwpeofija;sdlkfjqwpeoifja;lsdkjf </p>
+        <form action="/" method="post">
+            <input type="text" name="email" placeholder="E-mail" required="">
+            <input type="text" name="username" placeholder="Username" required="">
+            <input type="password" name="password" placeholder="Password" required="">
+            <input type="password" name="passwordConf" placeholder="Confirm Password" required="">
+            <input type="submit" value="REGISTER">
+          </form>
       </div>
     );
   }
