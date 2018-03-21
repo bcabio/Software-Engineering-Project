@@ -1,22 +1,49 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Post from './Post/Post';
+import Login from './Login/Login';
+import Profile from './Profile/Profile';
+
+import {Route, NavLink, BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
+
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      email: ``,
+      username: ``,
+      password: ``,
+      passwordConf: ``,
+      logemail: ``,
+      logpassword: ``
+    };
+  }
+
+
   render() {
     return (
-      <div className="App">
-      <p> awefpoiajsd;lfkqjwpeofijas;dflkqjwpeofija;sdlkfjqwpeoifja;lsdkjf </p>
-        <form action="/" method="post">
-            <input type="text" name="email" placeholder="E-mail" required="">
-            <input type="text" name="username" placeholder="Username" required="">
-            <input type="password" name="password" placeholder="Password" required="">
-            <input type="password" name="passwordConf" placeholder="Confirm Password" required="">
-            <input type="submit" value="REGISTER">
-          </form>
+    <BrowserRouter>
+     <div className="App">
+      <div>
+        <NavLink to="/"> Home </NavLink>
+        <NavLink to="/profile"> Users </NavLink>
+        <NavLink to ="/post/1"> Post </NavLink>
       </div>
+
+      <div>
+        <Route exact path="/" component={Login}/>
+        <Route path="/post/1" component={Post}/>
+        <Route path="/profile" component={Profile}/>
+      </div>
+
+      </div>
+      </BrowserRouter>
     );
   }
+
 }
 
 export default App;
