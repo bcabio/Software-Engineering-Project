@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import Img from 'react-image';
 
-const URL = 'https://swe-server.herokuapp.com'
+const URL = 'http://localhost:5000'
 
 class Feed extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            "posts": []
+            "posts": [
+
+            ]
         };
     }
 
@@ -31,9 +33,12 @@ class Feed extends Component {
     // TODO: edit this to generate multiple cards within the div
     render() {
         const cards = this.state.posts.map((post) =>
-                <div key={post._id} className="card">
-                    <h3 className="card-title"> {post.title} </h3>
-                    <p className="card-text"> {post.description} </p>
+                <div key={post._id} className="card" style={{width: `18rem`}}>
+                    <Img className="card-img-top" src="{this.state.post.pictureLink}.jpg" alt="Card image cap"/>
+                    <div className="card-body">
+                        <h3 className="card-title"> {post.title} </h3>
+                        <p className="card-text"> {post.description} </p>
+                    </div>
                 </div>
             );
 
