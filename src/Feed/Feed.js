@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Img from 'react-image';
 
-const URL = 'https://swe-server.herokuapp.com'
+const URL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
+console.log(URL);
 
 class Feed extends Component {
     constructor(props) {
@@ -13,7 +14,6 @@ class Feed extends Component {
     }
 
     componentDidMount() {
-        console.log('eyyyy lmao');
         fetch(URL + '/posts', {
             headers: {
                 'Accept': 'application/json'
@@ -24,7 +24,6 @@ class Feed extends Component {
             .then(response=> response.json())
             .then(data => {
                 this.setState({"posts": data});
-                console.log(data);
             });
     }
 
@@ -37,7 +36,7 @@ class Feed extends Component {
                 </div>
             );
 
-        return (<div class="container">
+        return (<div className="container">
                     <h1> List of Posts </h1>
                     {cards}
                 </div>

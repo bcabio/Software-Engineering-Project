@@ -40,10 +40,10 @@ class Post extends Component {
 
 		return (<div className="container">
 			<div className="card" style={{width: `18rem`}}>
-				  <Img className="card-img-top" src="{this.state.post.pictureLink}.jpg" alt="Card image cap"/>
+				  <Img className="card-img-top" src={this.state.post.pictureLink} alt="Card image cap"/>
 				  <div className="card-body">
 				   <h5 className="card-title">{this.state.post.title}</h5>
-				    <p className="card-text">{this.state.post.description}</p>
+				    <p className="card-text">{this.state.post.pictureLink}.jpg</p>
 				  </div>
 				</div>
 		</div>)
