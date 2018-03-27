@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const baseURL = 'https://swe-server.herokuapp.com';
+const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
 
 class Login extends Component {
 
