@@ -10,6 +10,7 @@ class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleState = this.handleState.bind(this);
+
     this.state = {
       "email": ``,
       "username": ``,
@@ -41,21 +42,17 @@ class Login extends Component {
       "logemail": this.state.logemail,
       "logpassword": this.state.logpassword
     }
-    console.log(data);
 
     fetch(baseURL + '/login', {
       method: 'post',
       mode: 'cors',
+      credentials: 'include',
       body: "logemail=" + this.state.logemail + "&logpassword=" + this.state.logpassword,
       headers: new Headers({
           'Accept': 'application/json',
           "Content-Type": "application/x-www-form-urlencoded"
       }),
       referrer: 'no-referrer'
-      // JSON.stringify({
-      //   logemail: this.state.logemail,
-      //   logpassword: this.state.logpassword
-      // })
     }).then(response => response.json())
     .then(data => this.handleState(data))
     .catch(function(err) {
@@ -71,7 +68,6 @@ class Login extends Component {
       "password": this.state.password,
       "passwordConf": this.state.passwordConf
     }
-    console.log(data);
     fetch(baseURL + '/register', {
       method: 'post',
       body: "email=" 
@@ -83,6 +79,7 @@ class Login extends Component {
           + "&passwordConf=" 
           + this.state.passwordConf,
       mode: 'cors',
+      credentials: 'include',
       headers: new Headers({
           'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -100,28 +97,26 @@ class Login extends Component {
   render() {
     return (
       <div>
-      <div>
-      <p> Register </p>
-        <form onSubmit={this.handleRegister}>
+        <div>
+          <p> Register </p>
+          <form onSubmit={this.handleRegister}>
             <input type="text" value={this.state.email} onChange={this.handleChange} name="email" placeholder="E-mail" required=""/>
             <input type="text" value={this.state.username} onChange={this.handleChange} name="username" placeholder="Username" required=""/>
             <input type="password" value={this.state.password} onChange={this.handleChange} name="password" placeholder="Password" required=""/>
             <input type="password" value={this.state.passwordConf} onChange={this.handleChange} name="passwordConf" placeholder="Confirm Password" required=""/>
             <input type="submit" value="REGISTER"/>
           </form>
-      </div>
+        </div>
 
-      <div className="App">
-      <p> Log in </p>
-        <form onSubmit={this.handleLogin}>
+        <div className="App">
+          <p> Log in </p>
+          <form onSubmit={this.handleLogin}>
             <input type="text" value={this.state.logemail} onChange={this.handleChange} name="logemail" placeholder="E-mail" required=""/>
             <input type="password" value={this.state.logpassword} onChange={this.handleChange} name="logpassword" placeholder="Password" required=""/>
             <input type="submit" value="LOGIN"/>
           </form>
-      </div>
-
-            {this.state.response}
-
+        </div>
+        {this.state.response}
       </div>
       );
   }
