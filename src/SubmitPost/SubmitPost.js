@@ -12,7 +12,8 @@ class SubmitPost extends Component {
         this.state = {
           "title": ``,
           "description": ``,
-          "pictureLink": ``
+          "pictureLink": ``,
+          "response": null
         };
     }
 
@@ -68,6 +69,7 @@ class SubmitPost extends Component {
                             <input type="text" value={this.state.description} onChange={this.handleChange} name="description" placeholder="Animal Description" required=""/>
                             <input type="text" value={this.state.pictureLink} onChange={this.handleChange} name="pictureLink" placeholder="Picture Link" required=""/>
                             <input type="submit" value="SUBMIT"/>
+                            {this.state.response}
                         </form>
                 </div>
         );
