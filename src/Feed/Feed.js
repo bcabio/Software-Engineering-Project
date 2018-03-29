@@ -3,7 +3,7 @@ import Post from '../Post/Post';
 import "./Feed.css";
 import Img from 'react-image';
 
-const URL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
+const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
 
 class Feed extends Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class Feed extends Component {
     }
 
     componentDidMount() {
-        fetch(URL + '/posts', {
+        fetch(baseURL + '/posts', {
             headers: {
                 'Accept': 'application/json'
             },

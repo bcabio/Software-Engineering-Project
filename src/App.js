@@ -31,7 +31,7 @@ class App extends Component {
      <div className="App">
       <div>
         <NavLink to="/">Home</NavLink> | 
-        <NavLink to="/profile">Users</NavLink> | 
+        <NavLink to="/profile">Profile</NavLink> | 
         <NavLink to="/posts">Feed</NavLink> | 
         <NavLink to="/post/1">Post</NavLink> | 
         <NavLink to="/submit">Submit</NavLink>
@@ -40,7 +40,7 @@ class App extends Component {
       <div>
         <Route exact path="/" component={Login}/>
         <Route path="/submit" component={SubmitPost}/>
-        <Route path="/post/1" component={Post}/>
+        <Route path="/post/:id" component={Post}/>
         <Route path="/posts" component={Feed}/>
         <Route path="/profile" component={Profile}/>
       </div>

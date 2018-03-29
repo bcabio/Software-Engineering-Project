@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const URL = "https://swe-server.herokuapp.com"
+const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
 
 class Profile extends Component {
 	constructor(props) {
@@ -16,28 +16,32 @@ class Profile extends Component {
 
 	componentDidMount() {
 		console.log('we here');
-		fetch(URL + '/profiles')
+		fetch(baseURL + '/profile',{
+			method: 'get',
+			credentials: 'include'
+			})
 			.then(response=> response.json())
 			.then(data => {
-				console.log(data);
-				this.setState({"profiles": data});
-				console.log(data);
+				console.log('here',data);
+				if(data['username'] != null) {
+					this.setState({"profiles": data});
+				}
 			});
 	}
 
 	render() {
-		const cards = this.state.profiles.map((user) =>
-				<div key={user._id} className="card">
-					<h3 className="card-title"> {user.username} </h3>
-					<p> {user.email} </p>
-					<p className="card-text"> {user.password} </p>
-				</div>
-			);
+	
 
-	return (<div class="container">
-				<h1> List of All Users </h1>
-				{cards}
-			</div>)	;
+		if (this.state.profiles.length === 0) {
+
+			return (<div className="container"> 
+					{this.state.profiles.length}
+						<p> You are not logged in </p>
+					</div>);
+		}
+		return (<div className="container">
+					<p> Welcome! {this.state.profiles.username} </p>
+				</div>)	;
 		}
 	}
 

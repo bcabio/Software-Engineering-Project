@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Img from 'react-image';
 
-const URL = 'https://swe-server.herokuapp.com'
+const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
 
 class Post extends Component {
 
@@ -21,8 +21,8 @@ class Post extends Component {
 	}
 
 	componentDidMount() {
-		console.log('we here');
-		fetch(URL + '/post/1',{
+		let postId = this.props.match.params.id;
+		fetch(baseURL + '/post/' + postId,{
 			headers: {
 				'Accept': 'application/json'
 			},
@@ -32,7 +32,6 @@ class Post extends Component {
 			.then(response=> response.json())
 			.then(data => {
 				this.setState({"post": data});
-				console.log(data);
 			});
 	}
 
