@@ -71,6 +71,7 @@ class SubmitPost extends Component {
                             <input type="submit" value="SUBMIT"/>
                             {this.state.response}
                         </form>
+                
                 </div>
         );
     }
