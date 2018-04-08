@@ -63,6 +63,7 @@ class SubmitPost extends Component {
     // TODO: edit this to generate multiple cards within the div
     render() {
         return (<div>
+                {process.env.REACT_APP_ENV}
                     <p>Submit Post</p>
                         <form onSubmit={this.handlePostSubmission}>
                             <input type="text" value={this.state.title} onChange={this.handleChange} name="title" placeholder="Post Title" required=""/>
