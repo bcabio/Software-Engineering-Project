@@ -27,6 +27,7 @@ class Feed extends Component {
             .then(response=> response.json())
             .then(data => {
                 this.setState({"posts": data});
+                console.log(this.state.posts);
             });
     }
 
@@ -45,6 +46,9 @@ class Feed extends Component {
         // TODO: Change className to card-columns for the Feed Container
         return (<div>
                     <h1> List of Posts </h1>
+                    |{process.env.REACT_APP_ENV}|
+                    {(process.env.REACT_APP_ENV === "production").toString()}
+                    {baseURL}
                     <div className="container Feed-Card-Container">
                         {cards}
                     </div>
