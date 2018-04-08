@@ -6,6 +6,7 @@ import Login from './Login/Login';
 import Profile from './Profile/Profile';
 import Feed from './Feed/Feed';
 import SubmitPost from './SubmitPost/SubmitPost';
+import Logout from './Logout/Logout';
 
 import {Route, NavLink, BrowserRouter } from 'react-router-dom';
 
@@ -43,7 +44,10 @@ class App extends Component {
         <Route path="/post/:id" component={Post}/>
         <Route path="/posts" component={Feed}/>
         <Route path="/profile" component={Profile}/>
+        <Route path="/logout" component={Logout}/>
+
       </div>
+
       </div>
       </BrowserRouter>
     );

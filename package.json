@@ -14,7 +14,8 @@
   "homepage": "https://bcabio.github.io/Software-Engineering-Project",
   "scripts": {
     "start:WINDOWS": "SET REACT_APP_ENV=production&& react-scripts start",
-    "start": "REACT_APP_ENV=production && react-scripts start",
+    "start:UNIX": "REACT_APP_ENV=production && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

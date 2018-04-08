@@ -12,6 +12,8 @@ class Profile extends Component {
 				
 			]
 		};
+
+		this.handleLogout = this.handleLogout.bind(this);
 	}
 
 	componentDidMount() {
@@ -29,6 +31,14 @@ class Profile extends Component {
 			});
 	}
 
+	handleLogout() {
+		this.setState({"profiles": ""});
+		fetch(baseURL + '/logout', {
+			method: 'get',
+			credentials: 'include'
+		});
+	}
+
 	render() {
 	
 
@@ -41,6 +51,10 @@ class Profile extends Component {
 		}
 		return (<div className="container">
 					<p> Welcome! {this.state.profiles.username} </p>
+      				<button onClick={this.handleLogout}>
+      					Logout
+      				</button>
+
 				</div>)	;
 		}
 	}
