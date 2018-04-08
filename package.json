@@ -4,17 +4,21 @@
   "private": true,
   "dependencies": {
     "dotenv": "^5.0.1",
+    "gh-pages": "^1.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-image": "^1.3.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1"
   },
+  "homepage": "https://bcabio.github.io/Software-Engineering-Project",
   "scripts": {
     "start:WINDOWS": "SET REACT_APP_ENV=production && react-scripts start",
     "start": "REACT_APP_ENV=production && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }

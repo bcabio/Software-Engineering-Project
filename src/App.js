@@ -44,7 +44,7 @@ class App extends Component {
         <Route path="/posts" component={Feed}/>
         <Route path="/profile" component={Profile}/>
       </div>
-      ok
+      ok 
       </div>
       </BrowserRouter>
     );
