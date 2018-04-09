@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import {Route, NavLink, BrowserRouter } from 'react-router-dom';
+
+import SubmitPost from './SubmitPost/SubmitPost';
+import Profile from './Profile/Profile';
+import Logout from './Logout/Logout';
+import Login from './Login/Login';
+import Post from './Post/Post';
+import Feed from './Feed/Feed';
+
 import logo from './logo.svg';
 import './App.css';
-import Post from './Post/Post';
-import Login from './Login/Login';
-import Profile from './Profile/Profile';
-import Feed from './Feed/Feed';
-import SubmitPost from './SubmitPost/SubmitPost';
-import Logout from './Logout/Logout';
-
-import {Route, NavLink, BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
 

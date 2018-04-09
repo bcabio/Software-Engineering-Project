@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Geolocation from '../Geolocation/Geolocation';
+
 const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
 
 class Profile extends Component {
@@ -40,8 +42,7 @@ class Profile extends Component {
 	}
 
 	render() {
-	
-
+		console.log(this.props.children);
 		if (this.state.profiles.length === 0) {
 
 			return (<div className="container"> 
@@ -51,6 +52,7 @@ class Profile extends Component {
 		}
 		return (<div className="container">
 					<p> Welcome! {this.state.profiles.username} </p>
+					<Geolocation />
       				<button onClick={this.handleLogout}>
       					Logout
       				</button>
