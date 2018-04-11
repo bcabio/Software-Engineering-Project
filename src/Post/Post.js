@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Img from 'react-image';
+import "./Post.css";
 
 const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
 
