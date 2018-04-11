@@ -13,8 +13,8 @@ import './App.css';
 
 class App extends Component {
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: ``,
@@ -25,6 +25,10 @@ class App extends Component {
       logpassword: ``,
       coords: null
     };
+
+    this.getInnerRef = this.getInnerRef.bind(this);
+    this.getLocation = this.getLocation.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   setCoordinates(coords) {
@@ -32,7 +36,28 @@ class App extends Component {
     console.log('state after setCoordinates', this.state);
   }
 
+
+  innerRef;
+  getInnerRef(ref) {
+    this.innerRef = ref;
+    this.getLocation();
+  }
+
+  getLocation() {
+    this.innerRef && this.innerRef.getLocation();
+    console.log(this.innerRef);
+    console.log('location', this.props);
+    this.props.coords && this.setState({"coords": this.props.coords});
+    console.log("state app", this.state);
+  }
+
+  handleLocation(coords) {
+    console.log('location handled', coords);
+    this.setState({"coords": coords});
+  }
+
   render() {
+    const { getInnerRef } = this;
     return (
     <BrowserRouter>
      <div className="App">
@@ -49,11 +74,13 @@ class App extends Component {
         <Route path="/submit" component={SubmitPost}/>
         <Route path="/post/:id" component={Post}/>
         <Route path="/posts" component={Feed}/>
-        <Route path="/profile" render={() => <Profile><Geolocation setCoords={this.setCoordinates.bind(this)}/></Profile>} />
+        <Route path="/profile" render={() => {return (<Profile ref={getInnerRef} onGetLocation={this.handleLocation}><Geolocation setCoords={this.setCoordinates.bind(this)}/></Profile>)}} />
         <Route path="/logout" component={Logout}/>
 
       </div>
-
+        {this.state.coords && this.state.coords.latitude}
+        
+        
       </div>
       </BrowserRouter>
     );

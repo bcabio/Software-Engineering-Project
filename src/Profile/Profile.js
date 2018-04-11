@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { geolocated } from 'react-geolocated';
+import ReactLoading from 'react-loading';
 
-const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
+import Geolocation from '../Geolocation/Geolocation';
+
+const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000');
 
 class Profile extends Component {
 	constructor(props) {
@@ -14,6 +17,9 @@ class Profile extends Component {
 			],
 			coords: ``
 		};
+
+		this.getInnerRef = this.getInnerRef.bind(this);
+		this.getLocation = this.getLocation.bind(this);
 
 		this.handleLogout = this.handleLogout.bind(this);
 	
@@ -42,11 +48,27 @@ class Profile extends Component {
 		});
 	}
 
-	
-	render() {
-		console.log('props', this.props);
+	innerRef;
+	getInnerRef(ref) {
+		console.log('this.innerRef');
+		this.innerRef = ref;
+	}
 
-		const c = this.props.positionError && this.props.positionError.code === 2 ? <div> Unable to acquire your location </div> : <div> </div>;
+	getLocation() {
+		this.innerRef && this.innerRef.getLocation();
+		// console.log(this.innerRef);
+		// console.log('location', this.props);
+		this.setState({"coords": this.props.coords});
+		this.props.onGetLocation(this.props.coords);
+		console.log('onGetLocation', this.props.onGetLocation);
+		// console.log("state", this.state);
+	}
+
+	render() {
+
+		console.log('propssss', this.props);
+		const { getInnerRef, getLocation } = this;
+
 		if (this.state.profiles.length === 0) {
 
 			return (<div className="container"> 
@@ -56,9 +78,10 @@ class Profile extends Component {
 		}
 		return (<div className="container">
 					<p> Welcome! {this.state.profiles.username} </p>
-					{this.props.isGeolocationEnabled.toString()}
-					{this.props.coords && this.props.coords.latitude}
-					{this.props.positionError && c}
+					
+					{ this.state.coords && this.state.coords.latitude || <ReactLoading type={"bars"} color={"black"} />}
+					<Geolocation ref={getInnerRef} /> 
+      				<button onClick={getLocation}> Get Location </button>
       				<button onClick={this.handleLogout}>
       					Logout
       				</button>

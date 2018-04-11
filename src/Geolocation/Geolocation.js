@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
+
 import { geolocated } from 'react-geolocated';
 
 class Geolocation extends Component {
@@ -9,12 +11,14 @@ class Geolocation extends Component {
 			: !this.props.isGeolocationEnabled
 				? <div> Geolocation is not enabled </div>
 				: this.props.coords
-					? <div> {this.props.coords.latitude} :: {this.props.coords.longitude} </div>
-					: <div> Getting the location data&hellip; </div>;
+					? <div> Location Acquired </div>
+					: <div> Getting the location data&hellip;</div>;
 	}
 }
 export default geolocated({
 	positionOptions: {
 		enabledHighAccuracy: false,
+		maximumAge: 1000*60*5, //5 minutes
+		// timeout: 1000 * 5
 	}
 })(Geolocation);
