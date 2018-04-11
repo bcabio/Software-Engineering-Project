@@ -38,10 +38,6 @@ class Login extends Component {
 
   handleLogin(e) {
     e.preventDefault();
-    var data = {
-      "logemail": this.state.logemail,
-      "logpassword": this.state.logpassword
-    }
 
     fetch(baseURL + '/login', {
       method: 'post',
@@ -62,12 +58,6 @@ class Login extends Component {
 
   handleRegister(e) {
     e.preventDefault();
-    var data = {
-      "email": this.state.email,
-      "username": this.state.username,
-      "password": this.state.password,
-      "passwordConf": this.state.passwordConf
-    }
     fetch(baseURL + '/register', {
       method: 'post',
       body: "email=" 

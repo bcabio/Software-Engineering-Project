@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Route, NavLink, BrowserRouter } from 'react-router-dom';
 
+import Geolocation from './Geolocation/Geolocation';
 import SubmitPost from './SubmitPost/SubmitPost';
 import Profile from './Profile/Profile';
 import Logout from './Logout/Logout';
@@ -8,7 +9,6 @@ import Login from './Login/Login';
 import Post from './Post/Post';
 import Feed from './Feed/Feed';
 
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -22,10 +22,15 @@ class App extends Component {
       password: ``,
       passwordConf: ``,
       logemail: ``,
-      logpassword: ``
+      logpassword: ``,
+      coords: null
     };
   }
 
+  setCoordinates(coords) {
+    this.setState({"coords": coords})
+    console.log('state after setCoordinates', this.state);
+  }
 
   render() {
     return (
@@ -44,7 +49,7 @@ class App extends Component {
         <Route path="/submit" component={SubmitPost}/>
         <Route path="/post/:id" component={Post}/>
         <Route path="/posts" component={Feed}/>
-        <Route path="/profile" component={Profile}/>
+        <Route path="/profile" render={() => <Profile><Geolocation setCoords={this.setCoordinates.bind(this)}/></Profile>} />
         <Route path="/logout" component={Logout}/>
 
       </div>

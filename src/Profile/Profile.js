@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-
-import Geolocation from '../Geolocation/Geolocation';
+import { geolocated } from 'react-geolocated';
 
 const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
 
@@ -10,12 +9,14 @@ class Profile extends Component {
 
 
 		this.state = {
-			"profiles" : [
+			profiles : [
 				
-			]
+			],
+			coords: ``
 		};
 
 		this.handleLogout = this.handleLogout.bind(this);
+	
 	}
 
 	componentDidMount() {
@@ -41,8 +42,11 @@ class Profile extends Component {
 		});
 	}
 
+	
 	render() {
-		console.log(this.props.children);
+		console.log('props', this.props);
+
+		const c = this.props.positionError && this.props.positionError.code === 2 ? <div> Unable to acquire your location </div> : <div> </div>;
 		if (this.state.profiles.length === 0) {
 
 			return (<div className="container"> 
@@ -52,7 +56,9 @@ class Profile extends Component {
 		}
 		return (<div className="container">
 					<p> Welcome! {this.state.profiles.username} </p>
-					<Geolocation />
+					{this.props.isGeolocationEnabled.toString()}
+					{this.props.coords && this.props.coords.latitude}
+					{this.props.positionError && c}
       				<button onClick={this.handleLogout}>
       					Logout
       				</button>
@@ -62,4 +68,8 @@ class Profile extends Component {
 	}
 
 
-export default Profile;
+export default geolocated({
+	positionOptions: {
+		enabledHighAccuracy: false
+	}
+})(Profile);

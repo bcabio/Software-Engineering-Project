@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Post from '../Post/Post';
 import "./Feed.css";
 import Img from 'react-image';
 
