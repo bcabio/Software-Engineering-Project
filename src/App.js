@@ -45,14 +45,10 @@ class App extends Component {
 
   getLocation() {
     this.innerRef && this.innerRef.getLocation();
-    console.log(this.innerRef);
-    console.log('location', this.props);
     this.props.coords && this.setState({"coords": this.props.coords});
-    console.log("state app", this.state);
   }
 
   handleLocation(coords) {
-    console.log('location handled', coords);
     this.setState({"coords": coords});
   }
 

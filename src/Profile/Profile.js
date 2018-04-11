@@ -72,15 +72,14 @@ class Profile extends Component {
 		if (this.state.profiles.length === 0) {
 
 			return (<div className="container"> 
-					{this.state.profiles.length}
 						<p> You are not logged in </p>
 					</div>);
 		}
 		return (<div className="container">
 					<p> Welcome! {this.state.profiles.username} </p>
 					
-					{ this.state.coords && this.state.coords.latitude || <ReactLoading type={"bars"} color={"black"} />}
-					<Geolocation ref={getInnerRef} /> 
+					{ this.state.coords && this.state.coords.latitude || <Geolocation ref={getInnerRef} />}
+					 
       				<button onClick={getLocation}> Get Location </button>
       				<button onClick={this.handleLogout}>
       					Logout

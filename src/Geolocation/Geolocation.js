@@ -12,7 +12,7 @@ class Geolocation extends Component {
 				? <div> Geolocation is not enabled </div>
 				: this.props.coords
 					? <div> Location Acquired </div>
-					: <div> Getting the location data&hellip;</div>;
+					: <div> Getting the location data. Sometimes browsers like to really take their time  <ReactLoading type={"bars"} color={"black"}/>  </div>;
 	}
 }
 export default geolocated({
