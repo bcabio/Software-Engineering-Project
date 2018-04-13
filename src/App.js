@@ -11,6 +11,8 @@ import Feed from './Feed/Feed';
 
 import './App.css';
 
+const baseURL = (process.env.REACT_APP_ENV === "production" ? 'https://swe-server.herokuapp.com' : 'http://localhost:5000')
+
 class App extends Component {
 
   constructor(props) {
@@ -23,13 +25,35 @@ class App extends Component {
       passwordConf: ``,
       logemail: ``,
       logpassword: ``,
-      coords: null
+      coords: null,
+      loggedIn: false,
+      userData: {}
     };
 
     this.getInnerRef = this.getInnerRef.bind(this);
     this.getLocation = this.getLocation.bind(this);
     this.handleLocation = this.handleLocation.bind(this);
+    this.getLocationMaster = this.getLocationMaster.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
+
+  componentDidMount() {
+    fetch(baseURL + '/profile',{
+      method: 'get',
+      credentials: 'include'
+      })
+      .then(response=> response.json())
+      .then(data => {
+        console.log('here',data);
+        if(data['username'] != null) {
+          this.setState({"loggedIn": true});
+        } else {
+          this.setState({"userData": data});
+        }
+
+    });
+  }
+
 
   setCoordinates(coords) {
     this.setState({"coords": coords})
@@ -52,6 +76,14 @@ class App extends Component {
     this.setState({"coords": coords});
   }
 
+  handleLogin() {
+    this.setState({"loggedIn": true});
+  }
+
+  getLocationMaster() {
+    return this.state.coords && this.state.coords;
+  }
+
   render() {
     const { getInnerRef } = this;
     return (
@@ -66,16 +98,16 @@ class App extends Component {
       </div>
 
       <div>
-        <Route exact path="/" component={Login}/>
-        <Route path="/submit" component={SubmitPost}/>
+        <Route exact path="/" render={() => {return <Login logUserIn={this.handleLogin} loggedIn={this.state.loggedIn}/>}}/>
+        <Route path="/submit" render={() => {return <SubmitPost loggedIn={this.state.loggedIn} userData={this.state.userData} />}}/>
         <Route path="/post/:id" component={Post}/>
         <Route path="/posts" component={Feed}/>
-        <Route path="/profile" render={() => {return (<Profile ref={getInnerRef} onGetLocation={this.handleLocation}><Geolocation setCoords={this.setCoordinates.bind(this)}/></Profile>)}} />
+        <Route path="/profile" render={() => {return (<Profile ref={getInnerRef} setGlobalLocation={this.handleLocation} loggedIn={this.state.loggedIn}><Geolocation setCoords={this.setCoordinates.bind(this)}/></Profile>)}} />
         <Route path="/logout" component={Logout}/>
 
       </div>
         {this.state.coords && this.state.coords.latitude}
-        
+        {this.state.loggedIn.toString()}
         
       </div>
       </BrowserRouter>

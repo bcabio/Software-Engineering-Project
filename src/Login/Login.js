@@ -50,10 +50,17 @@ class Login extends Component {
       }),
       referrer: 'no-referrer'
     }).then(response => response.json())
-    .then(data => this.handleState(data))
+    .then(data => {
+      this.handleState(data)
+      if(data.response === 'You have Logged in Successfully!'){
+        console.log("offially logged in");
+        this.props.logUserIn();
+      }
+    })
     .catch(function(err) {
       console.log(err);
     });
+
   }
 
   handleRegister(e) {
@@ -72,8 +79,8 @@ class Login extends Component {
       credentials: 'include',
       headers: new Headers({
           'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }),
+          'Content-Type': 'application/x-www-form-urlencoded'
+      }),
       referrer: 'no-referrer'
 
     }).then(response => response.json())
@@ -81,6 +88,8 @@ class Login extends Component {
       console.log("Here in the handleRegister method");
       })
     .catch(error => console.error("Error:", error));
+
+    // this.props.logUserIn();
   }
 
 
@@ -98,6 +107,7 @@ class Login extends Component {
           </form>
         </div>
 
+        {!this.props.loggedIn && 
         <div className="App">
           <p> Log in </p>
           <form onSubmit={this.handleLogin}>
@@ -106,6 +116,7 @@ class Login extends Component {
             <input type="submit" value="LOGIN"/>
           </form>
         </div>
+        }
         {this.state.response}
       </div>
       );

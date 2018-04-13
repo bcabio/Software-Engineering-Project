@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { geolocated } from 'react-geolocated';
-import ReactLoading from 'react-loading';
 
 import Geolocation from '../Geolocation/Geolocation';
 
@@ -12,21 +11,22 @@ class Profile extends Component {
 
 
 		this.state = {
-			profiles : [
+			profile : [
 				
 			],
-			coords: ``
+			coords: ``,
+			locationAvailable: false,
+			locationSource: ``
 		};
 
 		this.getInnerRef = this.getInnerRef.bind(this);
 		this.getLocation = this.getLocation.bind(this);
-
+		this.setLocation = this.setLocation.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
 	
 	}
 
 	componentDidMount() {
-		console.log('we here');
 		fetch(baseURL + '/profile',{
 			method: 'get',
 			credentials: 'include'
@@ -35,8 +35,15 @@ class Profile extends Component {
 			.then(data => {
 				console.log('here',data);
 				if(data['username'] != null) {
-					this.setState({"profiles": data});
+					this.setState({"profile": data});
+					console.log('data', data);
 				}
+				if(data['longitude'] != null && data['latitude'] != null){
+					this.setState({"locationAvailable": true});
+					this.setState({"locationSource": "Location saved to profile:"});
+				}
+
+
 			});
 	}
 
@@ -46,42 +53,76 @@ class Profile extends Component {
 			method: 'get',
 			credentials: 'include'
 		});
+		window.location.reload();
 	}
 
 	innerRef;
 	getInnerRef(ref) {
-		console.log('this.innerRef');
 		this.innerRef = ref;
 	}
 
 	getLocation() {
 		this.innerRef && this.innerRef.getLocation();
-		// console.log(this.innerRef);
-		// console.log('location', this.props);
 		this.setState({"coords": this.props.coords});
-		this.props.onGetLocation(this.props.coords);
-		console.log('onGetLocation', this.props.onGetLocation);
-		// console.log("state", this.state);
+		this.props.setGlobalLocation(this.props.coords);
+		this.setLocation();
+		window.location.reload();
 	}
 
-	render() {
+	setLocation() {
+		// update current session to have location
+		fetch(baseURL + '/updateSession', {
+			method: 'post',
+      		mode: 'cors',
+			credentials: 'include',
+			body: 'latitude=' + this.props.coords.latitude
+				+ '&longitude=' + this.props.coords.longitude,
+			headers: new Headers({
+		        'Accept': 'application/json',
+		        "Content-Type": "application/x-www-form-urlencoded"
+	      	}),
+	      	referrer: 'no-referrer'
+		})
 
-		console.log('propssss', this.props);
+		// update user profile to have their long and lat
+		fetch(baseURL + '/updateProfile', {
+			method: 'post', 
+			mode: 'cors', 
+			credentials: 'include',
+			body: 'latitude=' + this.props.coords.latitude
+				+ '&longitude=' + this.props.coords.longitude,
+			headers: new Headers({
+		        'Accept': 'application/json',
+		        "Content-Type": "application/x-www-form-urlencoded"
+	      	}),
+	      	referrer: 'no-referrer'
+		})
+	}
+	render() {
 		const { getInnerRef, getLocation } = this;
 
-		if (this.state.profiles.length === 0) {
+		if (!this.props.loggedIn) {
 
 			return (<div className="container"> 
 						<p> You are not logged in </p>
+						<button href="/" onClick={this.handleLogout}>
+      					Logout
+      				</button>
 					</div>);
 		}
 		return (<div className="container">
-					<p> Welcome! {this.state.profiles.username} </p>
-					
-					{ this.state.coords && this.state.coords.latitude || <Geolocation ref={getInnerRef} />}
-					 
-      				<button onClick={getLocation}> Get Location </button>
-      				<button onClick={this.handleLogout}>
+					<p> Welcome! {this.state.profile.username} </p>
+
+
+					<div>
+						{this.state.locationSource}
+						<p> Latitude: {this.state.profile.latitude} </p>
+						<p> Longitude: {this.state.profile.longitude} </p>
+					</div>
+
+					{ !this.state.locationAvailable && <Geolocation ref={getInnerRef} rememberLocation={getLocation}/> }
+
+      				<button href="/" onClick={this.handleLogout}>
       					Logout
       				</button>
 

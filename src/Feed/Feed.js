@@ -20,8 +20,10 @@ class Feed extends Component {
             headers: {
                 'Accept': 'application/json'
             },
-            referrer: 'no-refferer',
-            mode: 'cors'
+            // referrer: 'no-refferer',
+            mode: 'cors',
+            credentials: 'include',
+
         })
             .then(response=> response.json())
             .then(data => {
@@ -38,6 +40,10 @@ class Feed extends Component {
                     <div className="card-body">
                         <h3 className="card-title"> {post.title} </h3>
                         <p className="card-text"> {post.description} </p>
+                        <p> {post.creator} </p>
+                        <p> {post.latitude} </p>
+                        <p> {post.longitude} </p>
+                        <p> {post.updated} </p>
                     </div>
                 </div>
             );

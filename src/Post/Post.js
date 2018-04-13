@@ -28,7 +28,8 @@ class Post extends Component {
 				'Accept': 'application/json'
 			},
 			referrer: 'no-referrer',
-			mode: 'cors'
+			mode: 'cors',
+			// credentials: 'include'
 		})
 			.then(response=> response.json())
 			.then(data => {

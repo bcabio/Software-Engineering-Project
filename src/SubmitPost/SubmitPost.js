@@ -29,6 +29,8 @@ class SubmitPost extends Component {
         this.setState(currentState);
     }
 
+
+
     handlePostSubmission(e) {
         e.preventDefault();
         var data = {
@@ -44,7 +46,13 @@ class SubmitPost extends Component {
                 + "&description=" 
                 + this.state.description
                 + "&pictureLink=" 
-                + this.state.pictureLink,
+                + this.state.pictureLink
+                + "&latitude="
+                + this.props.userData.latitude
+                + "&longitude="
+                + this.props.userData.longitude
+                + "&creator="
+                + this.props.userData.username,
             mode: 'cors',
             headers: new Headers({
                 'Accept': 'application/json',
@@ -61,6 +69,13 @@ class SubmitPost extends Component {
 
     // TODO: edit this to generate multiple cards within the div
     render() {
+        if(!this.props.loggedIn) {
+            return( 
+                <div> 
+                    Please log in in order to submit a post
+                </div>
+                )
+        }
         return (<div>
                 {process.env.REACT_APP_ENV}
                     <p>Submit Post</p>
