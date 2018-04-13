@@ -20,7 +20,7 @@ class Feed extends Component {
             headers: {
                 'Accept': 'application/json'
             },
-            // referrer: 'no-refferer',
+            referrer: 'no-refferer',
             mode: 'cors',
             credentials: 'include',
 

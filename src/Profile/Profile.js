@@ -38,11 +38,20 @@ class Profile extends Component {
 					this.setState({"profile": data});
 					console.log('data', data);
 				}
+				console.log(data['longitude'] != null);
 				if(data['longitude'] != null && data['latitude'] != null){
+					console.log('hello');
+					const localCoords = {
+						"latitude": data["latitude"],
+						"longitude": data["longitude"]
+					};
+					console.log(localCoords);
+					this.props.setGlobalLocation(localCoords);
+					this.props.updateUserData(data);
 					this.setState({"locationAvailable": true});
 					this.setState({"locationSource": "Location saved to profile:"});
 				}
-
+				console.log('there', this.state);
 
 			});
 	}
@@ -52,8 +61,10 @@ class Profile extends Component {
 		fetch(baseURL + '/logout', {
 			method: 'get',
 			credentials: 'include'
+		}).then(res => {
+			window.location.reload();
 		});
-		window.location.reload();
+		
 	}
 
 	innerRef;
@@ -66,10 +77,10 @@ class Profile extends Component {
 		this.setState({"coords": this.props.coords});
 		this.props.setGlobalLocation(this.props.coords);
 		this.setLocation();
-		window.location.reload();
 	}
 
 	setLocation() {
+		console.log('setLocation', this.props);
 		// update current session to have location
 		fetch(baseURL + '/updateSession', {
 			method: 'post',
@@ -82,21 +93,22 @@ class Profile extends Component {
 		        "Content-Type": "application/x-www-form-urlencoded"
 	      	}),
 	      	referrer: 'no-referrer'
-		})
-
-		// update user profile to have their long and lat
-		fetch(baseURL + '/updateProfile', {
-			method: 'post', 
-			mode: 'cors', 
-			credentials: 'include',
-			body: 'latitude=' + this.props.coords.latitude
-				+ '&longitude=' + this.props.coords.longitude,
-			headers: new Headers({
-		        'Accept': 'application/json',
-		        "Content-Type": "application/x-www-form-urlencoded"
-	      	}),
-	      	referrer: 'no-referrer'
-		})
+		}).then((res) => {
+			fetch(baseURL + '/updateProfile', {
+				method: 'post', 
+				mode: 'cors', 
+				credentials: 'include',
+				body: 'latitude=' + this.props.coords.latitude
+					+ '&longitude=' + this.props.coords.longitude,
+				headers: new Headers({
+			        'Accept': 'application/json',
+			        "Content-Type": "application/x-www-form-urlencoded"
+		      	}),
+		      	referrer: 'no-referrer'
+			}).then(res => {
+				window.location.reload();
+			});
+		});
 	}
 	render() {
 		const { getInnerRef, getLocation } = this;
@@ -121,7 +133,7 @@ class Profile extends Component {
 					</div>
 
 					{ !this.state.locationAvailable && <Geolocation ref={getInnerRef} rememberLocation={getLocation}/> }
-
+					{false && !this.state.locationAvailable && <button onClick={getLocation}> Remember Location </button> }
       				<button href="/" onClick={this.handleLogout}>
       					Logout
       				</button>

@@ -35,6 +35,7 @@ class App extends Component {
     this.handleLocation = this.handleLocation.bind(this);
     this.getLocationMaster = this.getLocationMaster.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.updateUserData = this.updateUserData.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +48,8 @@ class App extends Component {
         console.log('here',data);
         if(data['username'] != null) {
           this.setState({"loggedIn": true});
+          this.setState({"userData": data});
+
         } else {
           this.setState({"userData": data});
         }
@@ -74,6 +77,12 @@ class App extends Component {
 
   handleLocation(coords) {
     this.setState({"coords": coords});
+    // this.setState({"userData": coords});
+    console.log('global', this.state);
+  }
+
+  updateUserData(data) {
+    this.setState({"userData": data});
   }
 
   handleLogin() {
@@ -102,7 +111,7 @@ class App extends Component {
         <Route path="/submit" render={() => {return <SubmitPost loggedIn={this.state.loggedIn} userData={this.state.userData} />}}/>
         <Route path="/post/:id" component={Post}/>
         <Route path="/posts" component={Feed}/>
-        <Route path="/profile" render={() => {return (<Profile ref={getInnerRef} setGlobalLocation={this.handleLocation} loggedIn={this.state.loggedIn}><Geolocation setCoords={this.setCoordinates.bind(this)}/></Profile>)}} />
+        <Route path="/profile" render={() => {return (<Profile ref={getInnerRef} userData={this.state.userData} updateUserData={this.updateUserData} setGlobalLocation={this.handleLocation} loggedIn={this.state.loggedIn}><Geolocation setCoords={this.setCoordinates.bind(this)}/></Profile>)}} />
         <Route path="/logout" component={Logout}/>
 
       </div>

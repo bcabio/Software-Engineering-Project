@@ -69,6 +69,7 @@ class SubmitPost extends Component {
 
     // TODO: edit this to generate multiple cards within the div
     render() {
+        console.log(this.props);
         if(!this.props.loggedIn) {
             return( 
                 <div> 
@@ -77,6 +78,7 @@ class SubmitPost extends Component {
                 )
         }
         return (<div>
+                {this.props.userData && this.props.userData.latitude}
                 {process.env.REACT_APP_ENV}
                     <p>Submit Post</p>
                         <form onSubmit={this.handlePostSubmission}>
@@ -84,8 +86,8 @@ class SubmitPost extends Component {
                             <input type="text" value={this.state.description} onChange={this.handleChange} name="description" placeholder="Animal Description" required=""/>
                             <input type="text" value={this.state.pictureLink} onChange={this.handleChange} name="pictureLink" placeholder="Picture Link" required=""/>
                             <input type="submit" value="SUBMIT"/>
-                            {this.state.response}
                         </form>
+                            {this.state.response}
                 
                 </div>
         );
