@@ -1,0 +1,17 @@
+p {
+	font-family: Ubuntu, arial;
+}
+
+.App {
+	background-color: #222;
+	width: 50%;
+	margin: auto;
+	margin-top: 3em;
+}
+
+.App input {
+	display: table-cell;
+    vertical-align: middle;
+    height: 50px;
+    border: 1px solid black;
+}
