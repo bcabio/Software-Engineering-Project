@@ -1,0 +1,11 @@
+.Submit-Container {
+	display: inline-block !important;
+}
+
+.Feed-Card-Container {
+    padding-top: 10px;
+    width: 60rem; 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center
+}
